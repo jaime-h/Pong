@@ -12,7 +12,7 @@
 #import "BlockView.h"
 #import "BallView.h"
 
-@interface ViewController () <UICollisionBehaviorDelegate>
+@interface ViewController () <UICollisionBehaviorDelegate, UIAlertViewDelegate>
 {
 
 
@@ -31,6 +31,7 @@
     
     int blocksInCurrentGame;
     int blockCounter;
+    bool newGameReturn;
     
 }
 
@@ -78,13 +79,22 @@
       
         // Decrement the blockcounter and check if we should start agiain...
         --blockCounter;
-
-        [self shouldStartAgain];
-        if (shouldStartAgain = YES)
+    
+       bool checkGame = [self shouldStartAgain];
+        
+        // Below checks the bool condition with ternary condition
+        // http://stackoverflow.com/questions/6358349/how-to-print-boolean-flag-in-nslog
+        // NSLog(checkGame ? @"Yes" : @"No");
+ 
+        if (checkGame == YES)
         {
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"New Features" message:@"Coming Soon!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *alertViewMessage = [[UIAlertView alloc] initWithTitle:@"Game Over" message:@"All your Bricks Belong to Me!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
             
-            [av show];
+            [alertViewMessage show];
+            
+            ballView.center = self.view.center;
+            [dynamicAnimator updateItemUsingCurrentState:ballView];
+
         }
         
     }
@@ -172,13 +182,23 @@
 
 -(bool)shouldStartAgain
 {
-    if (blockCounter == 0)
+    if (blockCounter <= 0)
     {
         return YES;
     }
     else
     {
         return NO;
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 0){
+        [self initGameBehavior];
+        [self drawNewBlocks];
+    }else{
+        [self initGameBehavior];
+        [self drawNewBlocks];
     }
 }
 
