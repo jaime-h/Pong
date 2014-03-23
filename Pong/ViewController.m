@@ -194,12 +194,28 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0){
+        
+        [self releaseAllData];
         [self initGameBehavior];
         [self drawNewBlocks];
     }else{
+        [self releaseAllData];
         [self initGameBehavior];
         [self drawNewBlocks];
     }
 }
 
+
+-(void)releaseAllData
+{
+    [dynamicAnimator removeAllBehaviors];
+   
+    [pushBehavior removeChildBehavior:pushBehavior];
+    [collisionBehavior removeChildBehavior:collisionBehavior];
+    [ballDynamicItemBehavior removeChildBehavior:ballDynamicItemBehavior];
+    [paddleDynamicItemBehavior removeChildBehavior:paddleDynamicItemBehavior];
+    
+    [self removeFromParentViewController];
+    
+}
 @end
