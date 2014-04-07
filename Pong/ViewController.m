@@ -42,6 +42,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSLog(@"testing git");
     [self initGameBehavior];
     [self drawNewBlocks];
     
